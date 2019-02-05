@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="caffrey.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="caffrey.bean.Admin">
+    <id column="adm_id" jdbcType="INTEGER" property="admId" />
+    <result column="adm_name" jdbcType="VARCHAR" property="admName" />
+    <result column="adm_email" jdbcType="VARCHAR" property="admEmail" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    adm_id, adm_name, adm_email, password
+  </sql>
+  <select id="selectByExample" parameterType="caffrey.bean.AdminExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_adm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_adm
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_adm
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="caffrey.bean.AdminExample">
+    delete from tbl_adm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="caffrey.bean.Admin">
+    insert into tbl_adm (adm_id, adm_name, adm_email, 
+      password)
+    values (#{admId,jdbcType=INTEGER}, #{admName,jdbcType=VARCHAR}, #{admEmail,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="caffrey.bean.Admin">
+    insert into tbl_adm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="admId != null">
+        adm_id,
+      </if>
+      <if test="admName != null">
+        adm_name,
+      </if>
+      <if test="admEmail != null">
+        adm_email,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="admId != null">
+        #{admId,jdbcType=INTEGER},
+      </if>
+      <if test="admName != null">
+        #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admEmail != null">
+        #{admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="caffrey.bean.AdminExample" resultType="java.lang.Long">
+    select count(*) from tbl_adm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_adm
+    <set>
+      <if test="record.admId != null">
+        adm_id = #{record.admId,jdbcType=INTEGER},
+      </if>
+      <if test="record.admName != null">
+        adm_name = #{record.admName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admEmail != null">
+        adm_email = #{record.admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_adm
+    set adm_id = #{record.admId,jdbcType=INTEGER},
+      adm_name = #{record.admName,jdbcType=VARCHAR},
+      adm_email = #{record.admEmail,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="caffrey.bean.Admin">
+    update tbl_adm
+    <set>
+      <if test="admName != null">
+        adm_name = #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admEmail != null">
+        adm_email = #{admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="caffrey.bean.Admin">
+    update tbl_adm
+    set adm_name = #{admName,jdbcType=VARCHAR},
+      adm_email = #{admEmail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </update>
+</mapper>

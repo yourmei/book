@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  
+<generatorConfiguration>
+
+
+	<context id="db2Table" targetRuntime="MyBatis3">
+		<!--关闭MBG的自动注释  -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>		
+		
+		<!-- mysql连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        	connectionURL="jdbc:mysql://localhost:3306/easybookstore?useSSL=false"
+        	userId="root"
+        	password="123456">
+    	</jdbcConnection>
+    	
+	   <javaTypeResolver >
+	   		<!--
+            true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+            false：默认,
+               scale>0;length>18：使用BigDecimal;
+               scale=0;length[10,18]：使用Long；
+               scale=0;length[5,9]：使用Integer；
+               scale=0;length<5：使用Short；
+         	-->
+	     <property name="forceBigDecimals" value="false" />
+	   </javaTypeResolver>
+	   
+	   	<!-- 指定javaBean生成的位置   -->
+	    <javaModelGenerator 
+	    	targetPackage="caffrey.bean" 
+	    	targetProject=".\src\main\java">
+	      <property name="enableSubPackages" value="true" />
+	      <property name="trimStrings" value="true" />
+	    </javaModelGenerator>
+	    
+	    <!-- 指定sql映射文件生成的位置  -->
+	    <sqlMapGenerator 
+	    	targetPackage="mapper"  
+	    	targetProject=".\src\main\resources">
+	      <property name="enableSubPackages" value="true" />
+	    </sqlMapGenerator>
+	    
+	    <!-- 指定dao接口生成的位置，mapper接口 -->
+	    <javaClientGenerator type="XMLMAPPER" 
+	    	targetPackage="caffrey.dao"  
+	    	targetProject=".\src\main\java">
+	      <property name="enableSubPackages" value="true" />
+	    </javaClientGenerator>
+	    
+		<!-- table标签指定每个表的生成策略  -->
+		<table tableName="tbl_adm" domainObjectName="Admin"></table>
+		<table tableName="tbl_book" domainObjectName="Book"></table>
+		<table tableName="tbl_vip" domainObjectName="Vip"></table>
+	</context>
+</generatorConfiguration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="caffrey.dao.VipMapper">
+  <resultMap id="BaseResultMap" type="caffrey.bean.Vip">
+    <id column="vip_id" jdbcType="INTEGER" property="vipId" />
+    <result column="vip_name" jdbcType="VARCHAR" property="vipName" />
+    <result column="vip_email" jdbcType="VARCHAR" property="vipEmail" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    vip_id, vip_name, vip_email, address, date, balance
+  </sql>
+  <select id="selectByExample" parameterType="caffrey.bean.VipExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_vip
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_vip
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="caffrey.bean.VipExample">
+    delete from tbl_vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="caffrey.bean.Vip">
+    insert into tbl_vip (vip_id, vip_name, vip_email, 
+      address, date, balance
+      )
+    values (#{vipId,jdbcType=INTEGER}, #{vipName,jdbcType=VARCHAR}, #{vipEmail,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{balance,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="caffrey.bean.Vip">
+    insert into tbl_vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        vip_id,
+      </if>
+      <if test="vipName != null">
+        vip_name,
+      </if>
+      <if test="vipEmail != null">
+        vip_email,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="vipName != null">
+        #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipEmail != null">
+        #{vipEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="caffrey.bean.VipExample" resultType="java.lang.Long">
+    select count(*) from tbl_vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_vip
+    <set>
+      <if test="record.vipId != null">
+        vip_id = #{record.vipId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipName != null">
+        vip_name = #{record.vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipEmail != null">
+        vip_email = #{record.vipEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=DATE},
+      </if>
+      <if test="record.balance != null">
+        balance = #{record.balance,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_vip
+    set vip_id = #{record.vipId,jdbcType=INTEGER},
+      vip_name = #{record.vipName,jdbcType=VARCHAR},
+      vip_email = #{record.vipEmail,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=DATE},
+      balance = #{record.balance,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="caffrey.bean.Vip">
+    update tbl_vip
+    <set>
+      <if test="vipName != null">
+        vip_name = #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipEmail != null">
+        vip_email = #{vipEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=INTEGER},
+      </if>
+    </set>
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="caffrey.bean.Vip">
+    update tbl_vip
+    set vip_name = #{vipName,jdbcType=VARCHAR},
+      vip_email = #{vipEmail,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      date = #{date,jdbcType=DATE},
+      balance = #{balance,jdbcType=INTEGER}
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+</mapper>
