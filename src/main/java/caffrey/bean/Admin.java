@@ -40,10 +40,4 @@ public class Admin {
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
     }
-
-	@Override
-	public String toString() {
-		return "Admin [admId=" + admId + ", admName=" + admName + ", admEmail=" + admEmail + ", password=" + password
-				+ "]";
-	}
 }

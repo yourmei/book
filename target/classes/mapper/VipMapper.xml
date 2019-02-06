@@ -8,6 +8,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="date" jdbcType="DATE" property="date" />
     <result column="balance" jdbcType="INTEGER" property="balance" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    vip_id, vip_name, vip_email, address, date, balance
+    vip_id, vip_name, vip_email, address, date, balance, password
   </sql>
   <select id="selectByExample" parameterType="caffrey.bean.VipExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="caffrey.bean.Vip">
     insert into tbl_vip (vip_id, vip_name, vip_email, 
-      address, date, balance
-      )
+      address, date, balance, 
+      password)
     values (#{vipId,jdbcType=INTEGER}, #{vipName,jdbcType=VARCHAR}, #{vipEmail,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{balance,jdbcType=INTEGER}
-      )
+      #{address,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{balance,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="caffrey.bean.Vip">
     insert into tbl_vip
@@ -129,6 +130,9 @@
       <if test="balance != null">
         balance,
       </if>
+      <if test="password != null">
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="vipId != null">
@@ -148,6 +152,9 @@
       </if>
       <if test="balance != null">
         #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.balance != null">
         balance = #{record.balance,jdbcType=INTEGER},
       </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       vip_email = #{record.vipEmail,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       date = #{record.date,jdbcType=DATE},
-      balance = #{record.balance,jdbcType=INTEGER}
+      balance = #{record.balance,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="balance != null">
         balance = #{balance,jdbcType=INTEGER},
       </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
     </set>
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       vip_email = #{vipEmail,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       date = #{date,jdbcType=DATE},
-      balance = #{balance,jdbcType=INTEGER}
+      balance = #{balance,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR}
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
 </mapper>

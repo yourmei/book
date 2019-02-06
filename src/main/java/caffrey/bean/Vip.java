@@ -15,6 +15,8 @@ public class Vip {
 
     private Integer balance;
 
+    private String password;
+
     public Integer getVipId() {
         return vipId;
     }
@@ -61,5 +63,13 @@ public class Vip {
 
     public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 }
