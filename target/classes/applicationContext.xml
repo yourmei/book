@@ -8,8 +8,33 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+	<!-- 根据注解自动扫描spring组件 -->
 	<context:component-scan base-package="caffrey">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
-
+	
+	<!-- 数据源和mybatis的设置 -->
+	<!-- c3p0数据库连接池 -->
+	<context:property-placeholder location="classpath:dbconfig.properties"/>
+	<bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="driverClass" value="${jdbc.driverClass}"></property>
+		<property name="user" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	
+	<!-- 整合mybatis, SqlSessionFactory-->
+	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定Mybatis全局配置文件位置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<!-- 指定mybatis的数据源 -->
+		<property name="dataSource" ref="datasource"></property>
+		<!-- 指定Mybatis Mapper文件的位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+	
+	<!-- 这段配置会扫描caffrey.dao下的所有接口，然后创建各自接口的动态代理类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="caffrey.dao"></property>
+	</bean>
 </beans>
