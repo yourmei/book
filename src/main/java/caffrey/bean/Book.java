@@ -62,4 +62,10 @@ public class Book {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
+
+	@Override
+	public String toString() {
+		return "Book [bookId=" + bookId + ", bookName=" + bookName + ", bookAuthor=" + bookAuthor + ", date=" + date
+				+ ", price=" + price + ", stock=" + stock + "]";
+	}
 }

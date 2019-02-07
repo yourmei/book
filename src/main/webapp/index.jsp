@@ -108,31 +108,22 @@
 				success:function(returnData){
 					//console.log("ajax login success");
 					console.log(returnData);
-					var pageNumber = 1;
-					
-					listBook(pageNumber);
+					if(returnData.opCode == 100)
+					{
+						var pageNumber = 1;
+						window.location.href = "bookPage";
+					}
+					else
+					{
+						alert("用户名或者密码错误，请重新输入!");
+						$("#input_name").val("");
+						$("#input_password").val("");
+					}
 				}
 			})
 			return false;
 		})
 		
-		function listBook(pageNumber){
-			//方式1：页面跳转，浏览器url会变化
-			window.location.href = "listBook?pn=" + pageNumber;
-			
-			//方式2 ：浏览器url不会变化，只是重新加载页面
-			/* 
-			$.ajax({
-				url:"listBook",
-				type:"GET",
-				data:"pn="+pageNumber,
-				success:function(returnPage){
-					//console.log("ajax to listBook");
-					document.write(returnPage);
-				}
-			})  
-			*/
-		}
 		
 		$("#signInBtn").click(function(){
 			console.log("signInBtn click");
