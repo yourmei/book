@@ -85,6 +85,7 @@
 		
 		function build_page_table(result)
 		{
+			$("#books_table tbody").empty();
 			var books = result.list.book.list;
 			$.each(books, function(index, item){
 				var bookIdTd = $("<td></td>").append(item.bookId);
@@ -109,6 +110,7 @@
 		
 		function build_page_info(result)
 		{
+			$("#pageinfo").empty();
 			$("#pageinfo").append("当前第 " + result.list.book.pageNum +
 					" 页  总共 " + result.list.book.pages +
 					" 页 总共 " + result.list.book.total + " 条记录");
@@ -116,15 +118,43 @@
 		
 		function buitd_page_nav(result)
 		{
+			$("#pagenav").empty();
 			var ul = $("<ul></ul>").addClass("pagination");
+
 			var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+			firstPage.click(function(){
+				listBookPage(1);
+			});
+			
 			var lastPage = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+			lastPage.click(function(){
+				console.log(result.list.book.pages);
+				listBookPage(result.list.book.pages);
+			})
+			
 			var prevPge = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+			if(result.list.book.prePage != 0)
+			{
+				prevPge.click(function(){
+					listBookPage(result.list.book.prePage);
+				})
+			}
+			
 			var nextPge = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+			if(result.list.book.nextPage != 0)
+			{
+				nextPge.click(function(){
+					listBookPage(result.list.book.nextPage);
+				})
+			}
+			
 			ul.append(firstPage);
 			ul.append(prevPge);
 			$.each(result.list.book.navigatepageNums, function(index, item){
 				var pageli = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+				pageli.click(function(){
+					listBookPage(item);
+				})
 				ul.append(pageli);
 			})
 			ul.append(nextPge);
