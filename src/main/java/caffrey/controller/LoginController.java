@@ -50,4 +50,67 @@ public class LoginController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="signin", method=RequestMethod.POST)
+	public Msg signIn(String name, String password, String email)
+	{
+		System.out.println("signin");
+		System.out.println(name);
+		System.out.println(password);
+		System.out.println(email);
+		
+		return Msg.Success(); 
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

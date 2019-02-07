@@ -24,6 +24,10 @@
 	input {
 		margin-bottom: 3px;
 	}
+	#loginIn {
+		height:40px;
+		width:206px;
+	}
 </style>
 
 <meta charset="ISO-8859-1">
@@ -48,12 +52,39 @@
 		    </label>
 
 			<button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+			<button id="loginIn" class="btn btn-success" type="submit" data-toggle="modal" data-target="#signInModal">注册</button>
 		</form>
 	</div>
 	
 	
 	
-	
+	<!-- 注册模态框（Modal） -->
+	<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						注册会员
+					</h4>
+				</div>
+				<div class="modal-body">
+					<input type="text" id="signIn_name" class="form-control" placeholder="name" required autofocus>
+					<input type="password" id="signIn_password" class="form-control" placeholder="password" required>
+					<input type="text" id="signIn_email" class="form-control" placeholder="email" required>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消
+					</button>
+					<button id="signInBtn" type="button" class="btn btn-primary">
+						确定
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>	
 	
 	<script type="text/javascript">
 		$("#loginBtn").click(function(){
@@ -77,8 +108,51 @@
 				success:function(returnData){
 					//console.log("ajax login success");
 					console.log(returnData);
+					var pageNumber = 1;
+					
+					listBook(pageNumber);
 				}
 			})
+			return false;
+		})
+		
+		function listBook(pageNumber){
+			//方式1：页面跳转，浏览器url会变化
+			window.location.href = "listBook?pn=" + pageNumber;
+			
+			//方式2 ：浏览器url不会变化，只是重新加载页面
+			/* 
+			$.ajax({
+				url:"listBook",
+				type:"GET",
+				data:"pn="+pageNumber,
+				success:function(returnPage){
+					//console.log("ajax to listBook");
+					document.write(returnPage);
+				}
+			})  
+			*/
+		}
+		
+		$("#signInBtn").click(function(){
+			console.log("signInBtn click");
+			
+			var name = $("#signIn_name").val();
+			var password = $("#signIn_password").val();
+			var email = $("#signIn_email").val();
+			
+			var paramData = "name=" + name + "&password=" + password + "&email=" + email;
+			console.log(paramData);
+			
+			$.ajax({
+				url:"signin",
+				type:"POST",
+				data:paramData,
+				success:function(returnData){
+					console.log(returnData);
+				}
+			})
+			
 			return false;
 		})
 	</script>
