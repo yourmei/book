@@ -18,7 +18,7 @@
 	
 	<div class="container">
 		<div class="row">
-		  <div class="col-md-12">welcome back to myBookstore </div>
+		  <div class="col-md-12">welcome back to myBookstore: ${name}</div>
 		</div>
 		<div class="row">
 		  <div class="col-md-12"> 
@@ -66,9 +66,21 @@
 	
 	<script type="text/javascript">
 		$(function(){
+			var loginName = '${requestScope.name}';
+			var loginId = '${requestScope.id}';
+			//alert(loginName);
+			console.log("loginName: " + loginName + " loginId: " + loginId);
 			listBookPage(1);
 		})
 	
+		$("#checkCar").click(function(){
+			checkShoppingCar();
+		})
+		
+		function checkShoppingCar(){
+			window.location.href = "ShoppingCar?name=" + '${requestScope.name}' + "&id=" + '${requestScope.id}';
+		}
+		
 		function listBookPage(pageNumber){
 			$.ajax({
 				url:"listBook",
@@ -96,6 +108,18 @@
 				var bookStockTd = $("<td></td>").append(item.stock);
 				
 				var addCarBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("加入购物车");
+				var loginId = '${requestScope.id}';
+				addCarBtn.click(function(){
+					console.log("加入购物车: bookid: " + item.bookId + " vipid: " + loginId);
+					$.ajax({
+						url:"AddShoppingCar",
+						type:"GET",
+						data:"vipId=" + loginId + "&bookId=" + item.bookId,
+						success:function(){
+							console.log("add book success");
+						}
+					})
+				})
 				var buttonTd = $("<td></td>").append(addCarBtn);
 				$("<tr></tr>").append(bookIdTd)
 				.append(bookNameTd)

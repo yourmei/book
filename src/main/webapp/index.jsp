@@ -111,7 +111,7 @@
 					if(returnData.opCode == 100)
 					{
 						var pageNumber = 1;
-						window.location.href = "bookPage";
+						window.location.href = "bookPage?name=" + returnData.list.name + "&id=" + returnData.list.id;
 					}
 					else
 					{

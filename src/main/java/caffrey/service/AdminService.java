@@ -1,8 +1,11 @@
 package caffrey.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import caffrey.bean.Admin;
 import caffrey.bean.AdminExample;
 import caffrey.bean.AdminExample.Criteria;
 import caffrey.dao.AdminMapper;
@@ -13,20 +16,25 @@ public class AdminService {
 	@Autowired
 	AdminMapper adminMapper;
 
-	public boolean checkLogin(String name, String password) {
+	public Integer checkLogin(String name, String password) {
+		Integer id;
 		
 		AdminExample example = new AdminExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andAdmNameEqualTo(name);
 		criteria.andPasswordEqualTo(password);
 		
-		if(adminMapper.countByExample(example) > 0)
+		List<Admin> admins = adminMapper.selectByExample(example);
+		
+		if(admins.isEmpty() == false)
 		{
-			return true;
+			System.out.println(admins.get(0));
+			id = admins.get(0).getAdmId();
+			return id;
 		}
 		else
 		{
-			return false;
+			return 0;
 		}
 		
 	}

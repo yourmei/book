@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +50,11 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="bookPage", method=RequestMethod.GET)
-	public String bookPage() {
+	public String bookPage(@RequestParam String name, int id,  ModelMap model) {
+		
+		System.out.println("bookPage: " + name + " id: " + id);
+		model.addAttribute("name", name);
+		model.addAttribute("id", id);
 		return "list";
 	}
 }

@@ -57,6 +57,7 @@
 		<table tableName="tbl_adm" domainObjectName="Admin"></table>
 		<table tableName="tbl_book" domainObjectName="Book"></table>
 		<table tableName="tbl_vip" domainObjectName="Vip"></table>
+		<table tableName="tbl_shoppingcar" domainObjectName="shoppingcarItem"></table>
 	</context>
 </generatorConfiguration>
 

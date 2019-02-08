@@ -25,24 +25,30 @@ public class LoginController {
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public Msg login(String name, String password, boolean isAdmin)
 	{
-		boolean isLoginSuccess = false;
-		
+		Integer loginId = null;
+		String id;
 		System.out.println("login");
 		System.out.println(name);
 		System.out.println(password);
 		System.out.println(isAdmin);
 		if(isAdmin == true)
 		{
-			isLoginSuccess = adminservice.checkLogin(name, password);
+			loginId = adminservice.checkLogin(name, password);
 		}
 		else
 		{
-			isLoginSuccess = vipservice.checkLogin(name, password);
+			loginId = vipservice.checkLogin(name, password);
 		}
 		
-		if(isLoginSuccess == true)
+		if(loginId != 0)
 		{
-			return Msg.Success();
+			Msg msg = Msg.Success();
+			msg.addObjToList("name", name);
+			id = loginId.toString();
+			System.out.println("ididid " + loginId.toString());
+			msg.addObjToList("id", id);
+			msg.addObjToList("isAdmin", isAdmin);
+			return msg;
 		}
 		else
 		{

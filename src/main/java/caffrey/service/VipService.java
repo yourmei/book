@@ -1,8 +1,11 @@
 package caffrey.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import caffrey.bean.Vip;
 import caffrey.bean.VipExample;
 import caffrey.bean.VipExample.Criteria;
 import caffrey.dao.VipMapper;
@@ -13,19 +16,24 @@ public class VipService {
 	@Autowired
 	VipMapper vipMapper;
 
-	public boolean checkLogin(String name, String password) {
-
+	public Integer checkLogin(String name, String password) {
+		Integer id = null;
 		VipExample vipExample = new VipExample();
 		Criteria criteria = vipExample.createCriteria();
 		criteria.andVipNameEqualTo(name);
 		criteria.andPasswordEqualTo(password);
-		if(vipMapper.countByExample(vipExample) > 0)
+		
+		List<Vip> vips = vipMapper.selectByExample(vipExample);
+		
+		if(vips.isEmpty() == false)
 		{
-			return true;
+			id = vips.get(0).getVipId();
+			
+			return id;
 		}
 		else
 		{
-			return false;
+			return 0;
 		}
 	}
 	
