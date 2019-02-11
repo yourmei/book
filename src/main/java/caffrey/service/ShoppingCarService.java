@@ -16,7 +16,7 @@ public class ShoppingCarService {
 	@Autowired
 	ShoppingCarItemMapper shoppingCarItemMapper;
 
-	public void addShoppingItem(int vipId, int bookId) {
+	public void addShoppingItemById(int vipId, int bookId) {
 		// TODO Auto-generated method stub
 		
 		ShoppingCarItemExample example = new ShoppingCarItemExample();
@@ -50,6 +50,11 @@ public class ShoppingCarService {
 		List<ShoppingCarItem> items = shoppingCarItemMapper.selectByVipId(id);
 		
 		return items;
+	}
+
+	public void updateShoppingCarByItemId(int item_id, int cnt) {
+		// TODO Auto-generated method stub
+		shoppingCarItemMapper.updateItemNumberByItem_id(item_id, cnt);
 	}
 	
 	

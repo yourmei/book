@@ -21,11 +21,21 @@ public class ShoppingCarController {
 	ShoppingCarService shoppingcarservice;
 	
 	@ResponseBody
+	@RequestMapping(value="updateShoppingCarByItemId", method=RequestMethod.GET)
+	public Msg updateShoppingCarByItemId(@RequestParam("ItemId") int ItemId, @RequestParam("number") int number)
+	{
+		System.out.println("updateShoppingCarByItemId " + "ItemId: " + ItemId + " number: " + number);
+		shoppingcarservice.updateShoppingCarByItemId(ItemId, number);
+		
+		return Msg.Success();
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="AddShoppingCar", method=RequestMethod.GET)
 	public Msg addShoppingCar(@RequestParam("vipId") int vipId, @RequestParam("bookId") int bookId)
 	{
 		System.out.println("vipId: " + vipId + " bookId: " + bookId);
-		shoppingcarservice.addShoppingItem(vipId, bookId);
+		shoppingcarservice.addShoppingItemById(vipId, bookId);
 		
 		return Msg.Success();
 	}

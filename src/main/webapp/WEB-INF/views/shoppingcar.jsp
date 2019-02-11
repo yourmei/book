@@ -101,14 +101,62 @@
 				
 				var id_index = index + 1;
 				tr.attr("id", "item" + id_index);
-				
+				tr.attr("itemId", item.itemId);
 				addBookBtn.click(function(){
-					var idindex = $("#item" + id_index).attr("id");;
-					alert("item number: " + idindex + " click");
+					var idindex = $("#item" + id_index).attr("id");
+					var book_name = item.bookName;
+					changeItemNumber(true, "#item" + id_index, item.itemId);
+				})
+				
+				descBookBtn.click(function(){
+					var idindex = $("#item" + id_index).attr("id");
+					changeItemNumber(false, "#item" + id_index, item.itemId)
 				})
 			})
 			
-			$("#totalPriceForCar").append("总价：" + totalPriceForCar);
+			var totalPriceText = $("<td></td>").append("总价:");
+			var totalPriceNullSpace = $("<td></td>").append("  ");
+			var totalPriceNumber = $("<td></td>").append(totalPriceForCar);
+			$("#totalPriceForCar").append(totalPriceText)
+			.append(totalPriceNullSpace)
+			.append(totalPriceNumber);
+		}
+		
+		function changeItemNumber(isAdd, id, itemId)
+		{
+			if(isAdd == true)
+			{
+				var cnt = parseInt($(id).find("td").eq(4).text()) + 1;
+			}
+			else
+			{
+				var cnt = parseInt($(id).find("td").eq(4).text()) - 1;
+			}
+			$(id).find("td").eq(4).text(cnt);
+			$(id).find("td").eq(5).text(cnt * ($(id).find("td").eq(3).text()));
+			
+			if(isAdd == true)
+			{
+				var totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) + parseInt($(id).find("td").eq(3).text());	
+			}
+			else
+			{
+				var totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) - parseInt($(id).find("td").eq(3).text());
+			}
+			
+			$("#totalPriceForCar").find("td").eq(2).text(totalCnt);
+			
+			var paramdata = "ItemId=" + itemId;
+			
+			console.log($(id).attr("itemId"));
+			$.ajax({
+				url:"updateShoppingCarByItemId",
+				type:"GET",
+				data:paramdata + "&number=" + cnt,
+				success:function(){
+					console.log("add book success");
+				}
+			}) 
 		}
 		
 	</script>

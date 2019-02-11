@@ -192,6 +192,12 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateItemNumberByItem_id">
+  	update tbl_shoppingcar
+  	set number = #{number,jdbcType=INTEGER}
+  	where
+  	item_id = #{item_id,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="caffrey.bean.ShoppingCarItem">
     update tbl_shoppingcar
     <set>
