@@ -27,4 +27,6 @@ public interface VipMapper {
     int updateByPrimaryKeySelective(Vip record);
 
     int updateByPrimaryKey(Vip record);
+    
+    void updateBalanceByVipId(@Param("vipId") Integer vipId, @Param("newBanlance") Integer newBanlance);
 }

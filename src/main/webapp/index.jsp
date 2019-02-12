@@ -45,10 +45,10 @@
 			<input type="password" id="input_password" class="form-control" placeholder="password" required>
 			
 			<label class="radio-inline">
-		      <input type="radio"  value="admin" name="login" checked="checked">管理员
+		      <input type="radio"  value="admin" name="login">管理员
 		    </label>
 		    <label class="radio-inline">
-		      <input type="radio"  value="vip" name="login">会员
+		      <input type="radio"  value="vip" name="login"  checked="checked">会员
 		    </label>
 
 			<button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">登录</button>

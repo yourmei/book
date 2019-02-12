@@ -9,6 +9,7 @@ import caffrey.bean.Vip;
 import caffrey.bean.VipExample;
 import caffrey.bean.VipExample.Criteria;
 import caffrey.dao.VipMapper;
+import caffrey.exception.BalanceNoEnoughException;
 
 @Service
 public class VipService {
@@ -37,4 +38,24 @@ public class VipService {
 		}
 	}
 	
+	public void updateVipMoney(Integer vipId, Integer money, boolean isPurchase)
+	{
+		int balance = vipMapper.selectByPrimaryKey(vipId).getBalance();
+		if(isPurchase == true)
+		{
+			if(balance < money)
+			{
+				throw new BalanceNoEnoughException();
+			}
+			else
+			{
+				balance -= money;
+				vipMapper.updateBalanceByVipId(vipId, balance);
+			}
+		}
+		else
+		{
+			vipMapper.updateBalanceByVipId(vipId, balance + money);
+		}
+	}
 }

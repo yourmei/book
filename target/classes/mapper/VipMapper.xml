@@ -193,6 +193,12 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateBalanceByVipId">
+  	update tbl_vip
+  		set balance = #{newBanlance,jdbcType=INTEGER}
+  	where 
+  		vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
   <update id="updateByExample" parameterType="map">
     update tbl_vip
     set vip_id = #{record.vipId,jdbcType=INTEGER},

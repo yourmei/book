@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import caffrey.bean.ShoppingCarItem;
 import caffrey.bean.ShoppingCarItemExample;
 import caffrey.bean.ShoppingCarItemExample.Criteria;
+import caffrey.dao.BookMapper;
 import caffrey.dao.ShoppingCarItemMapper;
+import caffrey.dao.VipMapper;
 
 @Service
 public class ShoppingCarService {
@@ -16,6 +19,19 @@ public class ShoppingCarService {
 	@Autowired
 	ShoppingCarItemMapper shoppingCarItemMapper;
 
+	@Autowired
+	VipMapper vipMapper;
+	
+	@Autowired
+	BookMapper bookMapper;
+	
+	@Autowired
+	VipService vipService;
+	
+	@Autowired
+	BookService bookService;
+	
+	
 	public void addShoppingItemById(int vipId, int bookId) {
 		// TODO Auto-generated method stub
 		
@@ -55,6 +71,28 @@ public class ShoppingCarService {
 	public void updateShoppingCarByItemId(int item_id, int cnt) {
 		// TODO Auto-generated method stub
 		shoppingCarItemMapper.updateItemNumberByItem_id(item_id, cnt);
+	}
+
+	@Transactional
+	public void purchaseAllItems(Integer vipId) {
+		// TODO Auto-generated method stub
+
+		List<ShoppingCarItem> items = shoppingCarItemMapper.selectByVipId(vipId);
+		for (ShoppingCarItem shoppingCarItem : items)
+		{
+			if(shoppingCarItem.getStatus() == false)
+			{
+				int totalPrice;
+				int cnt;
+				
+				cnt = shoppingCarItem.getNumber();
+				totalPrice = cnt * shoppingCarItem.getPrice();
+				
+				vipService.updateVipMoney(vipId, totalPrice, true);
+				bookService.updateBookStock(shoppingCarItem.getBookId(), cnt, false);
+				shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
+			}
+		}
 	}
 	
 	

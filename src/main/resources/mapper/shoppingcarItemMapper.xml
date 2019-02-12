@@ -198,6 +198,12 @@
   	where
   	item_id = #{item_id,jdbcType=INTEGER}
   </update>
+  <update id="updateItemStatusByItem_id">
+  	update tbl_shoppingcar
+  	set status = true
+  	where 
+  	item_id = #{item_id,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="caffrey.bean.ShoppingCarItem">
     update tbl_shoppingcar
     <set>

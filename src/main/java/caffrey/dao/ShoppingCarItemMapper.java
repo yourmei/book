@@ -31,4 +31,6 @@ public interface ShoppingCarItemMapper {
     List<ShoppingCarItem> selectByVipId(@Param("vipId") Integer vipId);
     
     void updateItemNumberByItem_id(@Param("item_id") Integer item_id, @Param("number") Integer number);
+    
+    void updateItemStatusByItem_id(@Param("item_id") Integer item_id);
 }

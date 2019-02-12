@@ -41,13 +41,11 @@
 		<div class="row">
 			<!--页面信息  -->
 			<div class="row">
-				<!--分页文字信息  -->
 				<div class="col-lg-6" id="totalPriceForCar">
 					
 				</div>
-				<!--分页条信息  -->
-				<div class="col-lg-6" id="pagenav">
-					
+				<div class="col-lg-2" id="purchase">
+					<button id="purchaseBtn" class="btn btn-primary btn-sm" >支付</button>
 				</div>
 			</div>
 		</div>
@@ -77,41 +75,44 @@
 			var totalPriceForCar = 0;
 			var items = result.list.shoppingitems;
 			$.each(items, function(index, item){
-				var indexId = $("<td></td>").append(index+1);
-				var bookNameId = $("<td></td>").append(item.bookName);
-				var bookAuthorId = $("<td></td>").append(item.bookAuthor);
-				var priceId = $("<td></td>").append(item.price);
-				var numberId = $("<td></td>").append(item.number);
-				var totalPriceForItemTd = $("<td></td>").append(item.number * item.price);
-				totalPriceForCar += item.number * item.price;
-				
-				var addBookBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("+"); 
-				var descBookBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("-"); 
-				
-				var buttonTd = $("<td></td>").append(addBookBtn).append("  ").append(descBookBtn);
-				
-				var tr = $("<tr></tr>").append(indexId)
-				.append(bookNameId)
-				.append(bookAuthorId)
-				.append(priceId)
-				.append(numberId)
-				.append(totalPriceForItemTd)
-				.append(buttonTd)
-				.appendTo("#shoppingItems_table tbody");
-				
-				var id_index = index + 1;
-				tr.attr("id", "item" + id_index);
-				tr.attr("itemId", item.itemId);
-				addBookBtn.click(function(){
-					var idindex = $("#item" + id_index).attr("id");
-					var book_name = item.bookName;
-					changeItemNumber(true, "#item" + id_index, item.itemId);
-				})
-				
-				descBookBtn.click(function(){
-					var idindex = $("#item" + id_index).attr("id");
-					changeItemNumber(false, "#item" + id_index, item.itemId)
-				})
+				if((item.number > 0) && (item.status == false))
+				{
+					var indexId = $("<td></td>").append(index+1);
+					var bookNameId = $("<td></td>").append(item.bookName);
+					var bookAuthorId = $("<td></td>").append(item.bookAuthor);
+					var priceId = $("<td></td>").append(item.price);
+					var numberId = $("<td></td>").append(item.number);
+					var totalPriceForItemTd = $("<td></td>").append(item.number * item.price);
+					totalPriceForCar += item.number * item.price;
+					
+					var addBookBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("+"); 
+					var descBookBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("-"); 
+					
+					var buttonTd = $("<td></td>").append(addBookBtn).append("  ").append(descBookBtn);
+					
+					var tr = $("<tr></tr>").append(indexId)
+					.append(bookNameId)
+					.append(bookAuthorId)
+					.append(priceId)
+					.append(numberId)
+					.append(totalPriceForItemTd)
+					.append(buttonTd)
+					.appendTo("#shoppingItems_table tbody");
+					
+					var id_index = index + 1;
+					tr.attr("id", "item" + id_index);
+					tr.attr("itemId", item.itemId);
+					addBookBtn.click(function(){
+						var idindex = $("#item" + id_index).attr("id");
+						var book_name = item.bookName;
+						changeItemNumber(true, "#item" + id_index, item.itemId);
+					})
+					
+					descBookBtn.click(function(){
+						var idindex = $("#item" + id_index).attr("id");
+						changeItemNumber(false, "#item" + id_index, item.itemId)
+					})
+				}
 			})
 			
 			var totalPriceText = $("<td></td>").append("总价:");
@@ -121,6 +122,26 @@
 			.append(totalPriceNullSpace)
 			.append(totalPriceNumber);
 		}
+		
+		$("#purchaseBtn").click(function(){
+			var param = "vipId=" + ${id};
+			$.ajax({
+				url:"purchase",
+				type:"GET",
+				data:param,
+				success:function(result){
+					if(result.opCode == 100)
+					{
+						alert("支付成功!!");	
+					}
+					else
+					{
+						alert("支付失败！！");
+					}
+					
+				}
+			})
+		})
 		
 		function changeItemNumber(isAdd, id, itemId)
 		{

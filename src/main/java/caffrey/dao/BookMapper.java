@@ -27,4 +27,6 @@ public interface BookMapper {
     int updateByPrimaryKeySelective(Book record);
 
     int updateByPrimaryKey(Book record);
+    
+    void updateStockByBookId(@Param("bookId") Integer bookId, @Param("stock") Integer stock);
 }

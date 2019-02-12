@@ -181,6 +181,12 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateStockByBookId">
+  	update tbl_book
+  		set stock = #{stock, jdbcType=INTEGER}
+  	where
+  		book_id = #{bookId, jdbcType=INTEGER}
+  </update>
   <update id="updateByExample" parameterType="map">
     update tbl_book
     set book_id = #{record.bookId,jdbcType=INTEGER},

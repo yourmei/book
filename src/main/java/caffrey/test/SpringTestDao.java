@@ -11,7 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import caffrey.bean.Admin;
 import caffrey.bean.ShoppingCarItem;
 import caffrey.dao.AdminMapper;
+import caffrey.dao.BookMapper;
 import caffrey.dao.ShoppingCarItemMapper;
+import caffrey.dao.VipMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -22,6 +24,12 @@ public class SpringTestDao {
 	
 	@Autowired
 	ShoppingCarItemMapper shoppingcaritemmapper;
+	
+	@Autowired
+	VipMapper vipmapper;
+	
+	@Autowired
+	BookMapper bookmapper;
 	
 	@Test
 	public void test()
@@ -36,6 +44,10 @@ public class SpringTestDao {
 		for (ShoppingCarItem shoppingCarItem : items) {
 			System.out.println(shoppingCarItem);
 		}
+		
+		vipmapper.updateBalanceByVipId(2, 50);
+		
+		bookmapper.updateStockByBookId(2, 7);
 	}
 	
 }
