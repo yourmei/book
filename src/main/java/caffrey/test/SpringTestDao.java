@@ -34,20 +34,21 @@ public class SpringTestDao {
 	@Test
 	public void test()
 	{
-		List<Admin> adms = adminMapper.selectByExample(null);
-		for (Admin admin : adms) {
-			System.out.println(admin);
-		}
+		/*
+		 * List<Admin> adms = adminMapper.selectByExample(null); for (Admin admin :
+		 * adms) { System.out.println(admin); }
+		 * 
+		 * Integer vipId = 2; List<ShoppingCarItem> items =
+		 * shoppingcaritemmapper.selectByVipId(vipId); for (ShoppingCarItem
+		 * shoppingCarItem : items) { System.out.println(shoppingCarItem); }
+		 * 
+		 * vipmapper.updateBalanceByVipId(2, 50);
+		 * 
+		 * bookmapper.updateStockByBookId(2, 7);
+		 */
 		
-		Integer vipId = 2;
-		List<ShoppingCarItem> items = shoppingcaritemmapper.selectByVipId(vipId);
-		for (ShoppingCarItem shoppingCarItem : items) {
-			System.out.println(shoppingCarItem);
-		}
-		
-		vipmapper.updateBalanceByVipId(2, 50);
-		
-		bookmapper.updateStockByBookId(2, 7);
+		Arithmetic arithmetic = new Arithmetic();
+		arithmetic.add(5, 6);
 	}
 	
 }

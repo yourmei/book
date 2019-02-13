@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import caffrey.annotation.Log;
 import caffrey.bean.Msg;
 import caffrey.dao.AdminMapper;
 import caffrey.dao.VipMapper;
@@ -21,6 +22,7 @@ public class LoginController {
 	@Autowired 
 	VipService vipservice;
 	
+	@Log
 	@ResponseBody
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public Msg login(String name, String password, boolean isAdmin)
