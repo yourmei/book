@@ -36,10 +36,24 @@ public class LoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 		// TODO Auto-generated method stub
 		
-		System.out.println("LoginInterceptor preHandle");
 		HttpSession session = request.getSession();
-		System.out.println(session.getId());
-		
-		return HandlerInterceptor.super.preHandle(request, response, handler);
+		System.out.println("[preHandle SessionId]" + session.getId());
+		System.out.println(request.getContextPath());
+		System.out.println(request.getRequestURI());
+		System.out.println("Interceptor for ShoppingCar :" + session.getAttribute("isLogin"));
+		System.out.println(session.getAttribute("isLogin"));
+		System.out.println(session.getAttribute("id"));
+		System.out.println(session.getAttribute("name"));
+		if((boolean)session.getAttribute("isLogin") == true)
+		{
+			return HandlerInterceptor.super.preHandle(request, response, handler);
+		}
+		else 
+		{
+			System.out.println("not login");
+			request.getRequestDispatcher("WEB-INF/views/loginPage.jsp").forward(request,response); 
+			
+			return false;
+		}
 	}
 }

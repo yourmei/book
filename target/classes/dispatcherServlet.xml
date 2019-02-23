@@ -22,7 +22,9 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	<mvc:interceptors>
-			<!-- <mvc:mapping path="/*"/> -->
-			<bean class="caffrey.interceptor.LoginInterceptor"></bean>
+			<mvc:interceptor>
+				<mvc:mapping path="/**/ShoppingCar"/>
+				<bean class="caffrey.interceptor.LoginInterceptor"></bean>
+			</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

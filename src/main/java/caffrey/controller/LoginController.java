@@ -1,6 +1,8 @@
 package caffrey.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +30,18 @@ public class LoginController {
 	VipService vipservice;
 	
 	@ResponseBody
+	@RequestMapping(value="logOut", method=RequestMethod.GET)
+	public Msg logOut(HttpServletRequest request)
+	{
+		System.out.println("logOut");
+		request.getSession().setAttribute("isLogin", false);
+		
+		return Msg.Success();
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="login", method=RequestMethod.GET)
-	public Msg login(String name, String password, boolean isAdmin)
+	public Msg login(HttpServletRequest request, String name, String password, boolean isAdmin)
 	{
 		LoginMsg loginMsg = null;
 
@@ -49,6 +61,11 @@ public class LoginController {
 			msg.addObjToList("name", name);
 			msg.addObjToList("id", loginMsg.getId());
 			msg.addObjToList("isAdmin", isAdmin);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("isLogin", true);
+			session.setAttribute("id", loginMsg.getId());
+			session.setAttribute("name", name);
 			return msg;
 		}
 		else
@@ -80,6 +97,12 @@ public class LoginController {
 		System.out.println(email);
 		
 		return Msg.Success(); 
+	}
+	
+	@RequestMapping(value="loginPage", method=RequestMethod.GET)
+	public String loginPage()
+	{
+		return "loginPage";
 	}
 }
 

@@ -57,6 +57,14 @@ public class BookController {
 		model.addAttribute("id", id);
 		return "list";
 	}
+	
+	@RequestMapping(value="checkBook", method=RequestMethod.GET)
+	public String bookPage(HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println(request.getSession().getAttribute("isLogin"));
+		
+		return "list";
+	}
 }
 
 

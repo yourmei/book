@@ -1,5 +1,7 @@
+<%@page import="org.springframework.web.context.annotation.SessionScope"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,22 @@
 	
 	<div class="container">
 		<div class="row">
-		  <div class="col-md-12">welcome back to myBookstore: ${name}</div>
+			
+			<c:if test="${sessionScope.isLogin == 'false'}">
+				<!-- <div class="col-md-12">木有登录</div> -->
+				<div class="col-md-12">welcome back to myBookstore:游客</div>
+				<div class="col-md-12"><button id="loginBtn">登录</button></div>
+			</c:if>
+			<c:if test="${sessionScope.isLogin == 'true'}">
+				<!-- <div class="col-md-12">已经登录</div> -->
+				<div class="col-md-12">welcome back to myBookstore: ${name}</div>
+				<div class="col-md-12"><button id="logOutBtn">登出</button></div>
+			</c:if>
+		  
+		</div>
+		<div class="row">
+		  
+		  
 		</div>
 		<div class="row">
 		  <div class="col-md-12"> 
@@ -80,6 +97,22 @@
 		function checkShoppingCar(){
 			window.location.href = "ShoppingCar?name=" + '${requestScope.name}' + "&id=" + '${requestScope.id}';
 		}
+		
+		$("#loginBtn").click(function(){
+			console.log("loginBtn click");
+			window.location.href = "loginPage";
+		})
+		
+		$("#logOutBtn").click(function(){
+			console.log("logOutBtn click");
+			$.ajax({
+				url:"logOut",
+				type:"GET",
+				success:function(result){
+					console.log(result);
+				}
+			})  
+		})
 		
 		function listBookPage(pageNumber){
 			$.ajax({

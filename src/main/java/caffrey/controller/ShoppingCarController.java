@@ -2,6 +2,8 @@ package caffrey.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,9 +43,13 @@ public class ShoppingCarController {
 	}
 	
 	@RequestMapping(value="ShoppingCar", method=RequestMethod.GET)
-	public String goToShoppingCar(@RequestParam("name") String name, @RequestParam("id") int id, 
-			ModelMap map)
+	public String goToShoppingCar(HttpServletRequest request, ModelMap map)
 	{
+		String name; 
+		int id;
+		name = (String) request.getSession().getAttribute("name");
+		id = (int) request.getSession().getAttribute("id");
+		
 		System.out.println("goToShoppingCar name: " + name + " id: " + id);
 		
 		map.addAttribute("name", name);

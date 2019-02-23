@@ -36,17 +36,8 @@
 
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<script language="javascript" type="text/javascript">
-           //window.location.href="index2.jsp";
-           window.location.href = "checkBook";
-           //window.location.href="WEB-INF/views/list.jsp";
-           //window.location.href="WEB-INF/hello.jsp";
-</script>
 </head>
 <body>
-	<div class="container">
-		<h4>Welcome to my bookstore</h4>
-	</div>
 	
 	<div class="container">
 		<form class="form-signin" role="form">
