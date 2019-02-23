@@ -1,12 +1,17 @@
 package caffrey.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.resource.HttpResource;
 
 import caffrey.annotation.Log;
+import caffrey.annotation.Login;
+import caffrey.bean.LoginMsg;
 import caffrey.bean.Msg;
 import caffrey.dao.AdminMapper;
 import caffrey.dao.VipMapper;
@@ -22,39 +27,46 @@ public class LoginController {
 	@Autowired 
 	VipService vipservice;
 	
-	@Log
 	@ResponseBody
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public Msg login(String name, String password, boolean isAdmin)
 	{
-		Integer loginId = null;
-		String id;
-		System.out.println("login");
-		System.out.println(name);
-		System.out.println(password);
-		System.out.println(isAdmin);
+		LoginMsg loginMsg = null;
+
 		if(isAdmin == true)
 		{
-			loginId = adminservice.checkLogin(name, password);
+			loginMsg = adminservice.checkLogin(name, password);
 		}
 		else
 		{
-			loginId = vipservice.checkLogin(name, password);
+			loginMsg = vipservice.checkLogin(name, password);
 		}
 		
-		if(loginId != 0)
+		
+		if(loginMsg.getCode() == 1)
 		{
 			Msg msg = Msg.Success();
 			msg.addObjToList("name", name);
-			id = loginId.toString();
-			System.out.println("ididid " + loginId.toString());
-			msg.addObjToList("id", id);
+			msg.addObjToList("id", loginMsg.getId());
 			msg.addObjToList("isAdmin", isAdmin);
 			return msg;
 		}
 		else
 		{
-			return Msg.Fail();
+			Msg msg = Msg.Fail();
+			
+			String message;
+			if(loginMsg.getCode() == -2)
+			{
+				message = "’À∫≈±ªÀ¯";
+			}
+			else
+			{
+				message = "√‹¬Î¥ÌŒÛ";
+			}
+			
+			msg.setMessage(message);
+			return msg;
 		}
 	}
 	

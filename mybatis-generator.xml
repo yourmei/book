@@ -54,10 +54,13 @@
 	    </javaClientGenerator>
 	    
 		<!-- table标签指定每个表的生成策略  -->
+<!-- 		
 		<table tableName="tbl_adm" domainObjectName="Admin"></table>
 		<table tableName="tbl_book" domainObjectName="Book"></table>
 		<table tableName="tbl_vip" domainObjectName="Vip"></table>
-		<table tableName="tbl_shoppingcar" domainObjectName="shoppingcarItem"></table>
+		<table tableName="tbl_shoppingcar" domainObjectName="shoppingcarItem"></table> 
+-->
+		<table tableName="tbl_login" domainObjectName="LoginItem"></table>
 	</context>
 </generatorConfiguration>
 

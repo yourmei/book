@@ -11,19 +11,10 @@ import org.springframework.stereotype.Component;
 public class LogInterceptor {
 	//private final Logger logger = LoggerFactory.getLogger(LogInterceptor.class);
 	
-	
-	
 	@Pointcut("@annotation(caffrey.annotation.Log)")
 	public void controllerAspect() {}
-	
-	public LogInterceptor() {
-		super();
-		// TODO Auto-generated constructor stub
-		System.out.println("LogInterceptor constructor");
-	}
 
-	//@Before("controllerAspect()")
-	@Before(value="execution(* caffrey.test.Arithmetic.add(int, int))")
+	@Before("controllerAspect()")
 	public void beforeAdvice(JoinPoint joinPoint)
 	{
 		String method = joinPoint.getSignature().getName();

@@ -24,7 +24,11 @@
 	input {
 		margin-bottom: 3px;
 	}
-	#loginIn {
+	#loginBtn {
+		height:40px;
+		width:206px;
+	}
+	#signIn {
 		height:40px;
 		width:206px;
 	}
@@ -52,7 +56,7 @@
 		    </label>
 
 			<button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-			<button id="loginIn" class="btn btn-success" type="submit" data-toggle="modal" data-target="#signInModal">注册</button>
+			<button id="signIn" class="btn btn-lg btn-success btn-block" type="submit" data-toggle="modal" data-target="#signInModal">注册</button>
 		</form>
 	</div>
 	
@@ -87,6 +91,12 @@
 	</div>	
 	
 	<script type="text/javascript">
+		$("#signIn").click(function(){
+			$("#signInModal").modal();
+			
+			return false;
+		})
+	
 		$("#loginBtn").click(function(){
 			//console.log("loginBtn click");
 			var name = $("#input_name").val();
@@ -115,12 +125,16 @@
 					}
 					else
 					{
-						alert("用户名或者密码错误，请重新输入!");
+						var msg = returnData.message;
+						console.log(returnData);
+						alert(msg);
 						$("#input_name").val("");
 						$("#input_password").val("");
 					}
 				}
 			})
+			
+			$("#signInModal").modal('hide');
 			return false;
 		})
 		
