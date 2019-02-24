@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Msg {
 
-	int opCode;					//100:success 200:fail
+	int opCode;					//100:success 200:fail 300:forward
 	String message;
 	Map<String, Object> list = new HashMap<String, Object>();
 

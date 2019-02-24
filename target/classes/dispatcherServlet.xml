@@ -21,7 +21,7 @@
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 			<mvc:interceptor>
 				<mvc:mapping path="/**/ShoppingCar"/>
 				<bean class="caffrey.interceptor.LoginInterceptor"></bean>
@@ -30,5 +30,9 @@
 				<mvc:mapping path="/**/AddShoppingCar"/>
 				<bean class="caffrey.interceptor.ShoppingCarAddInterceptor"></bean>
 			</mvc:interceptor>
-	</mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/**/purchase"/>
+				<bean class="caffrey.interceptor.PurchaseInterceptor"></bean>
+			</mvc:interceptor>
+	</mvc:interceptors> -->
 </beans>

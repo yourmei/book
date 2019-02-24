@@ -125,15 +125,21 @@
 							request.setAttribute("conrrentUrl", conrrentUrl);
 						%>
 						console.log('${requestScope.conrrentUrl}');
-						console.log('${requestScope.pageAfterLogin}');
-						if('${requestScope.pageAfterLogin}' == '')
+						console.log("pageAfterLogin" + '${sessionScope.pageAfterLogin}');
+						alert("pageAfterLogin" + '${sessionScope.pageAfterLogin}');
+						if('${sessionScope.pageAfterLogin}' == '')
 						{
 							//console.log("wanttopage is kong");
 							window.location.href = "bookPage";
 						}
 						else
 						{
-							window.location.href = '${requestScope.pageAfterLogin}';
+							var fowardPage = '${sessionScope.pageAfterLogin}';
+							alert('${sessionScope.pageAfterLogin}');
+							<% 
+								session.removeAttribute("pageAfterLogin");
+							%>
+							window.location.href = fowardPage;
 						}
 
 						//window.location.href = '${requestScope.pageAfterLogin}';

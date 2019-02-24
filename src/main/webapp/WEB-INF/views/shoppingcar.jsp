@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,13 @@
 <body>
 	<div class="container">
 		<div class="row">
-		  <div class="col-md-12">welcome back to myBookstore: ${name}</div>
+			<c:if test="${sessionScope.isLogin == 'false' || sessionScope.isLogin == ''}">
+				尚未登陆
+			</c:if>
+			
+			<c:if test="${sessionScope.isLogin == 'true'}">
+				welcome back to myBookstore: ${name}
+			</c:if>
 		</div>
 		<div class="row">
 			<button class="btn btn-success" id="FirstPage">首页</button>
@@ -55,15 +62,27 @@
 	
 	<script type="text/javascript">
 		$(function(){
+			console.log("showShoppingCar");
 			showShoppingCar();
 		})
 		
 		function showShoppingCar()
 		{
+			var isLogin = '${sessionScope.isLogin}';
+			console.log(isLogin);
+			if(('${sessionScope.isLogin}' == '') || ('${sessionScope.isLogin}' == 'false'))
+			{
+				var param = "id=0";
+			}
+			else
+			{
+				var param = "id=" + '${id}';	
+			}
+			console.log("getShoppingCarItemByVipId param: " + param);
 			$.ajax({
 				url:"getShoppingCarItemByVipId",
 				type:"GET",
-				data:"id=" + '${id}',
+				data:param,
 				success:function(returnData){
 					console.log(returnData);
 					build_shoppingItemTable(returnData);
@@ -76,6 +95,7 @@
 			$("#shoppingItems_table tbody").empty();
 			var totalPriceForCar = 0;
 			var items = result.list.shoppingitems;
+			console.log(items);
 			$.each(items, function(index, item){
 				if((item.number > 0) && (item.status == false))
 				{
@@ -130,7 +150,18 @@
 		})
 		
 		$("#purchaseBtn").click(function(){
-			var param = "vipId=" + ${id};
+			var vipId = '${id}';
+			console.log(vipId);
+			var param
+			if(vipId == '')
+			{
+				param = "vipId=0";
+			}
+			else
+			{
+				param = "vipId=" + '${id}';
+			}
+			
 			$.ajax({
 				url:"purchase",
 				type:"GET",
@@ -139,6 +170,14 @@
 					if(result.opCode == 100)
 					{
 						alert("支付成功!!");	
+					}
+					else if(result.opCode == 300)
+					{
+						alert("没有登录，需要跳转");
+						console.log("meiyou denglu");
+						var url = result.list.url;
+						console.log(url);
+						window.location.href = url;
 					}
 					else
 					{

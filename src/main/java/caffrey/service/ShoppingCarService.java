@@ -73,6 +73,22 @@ public class ShoppingCarService {
 		shoppingCarItemMapper.updateItemNumberByItem_id(item_id, cnt);
 	}
 
+	public List<ShoppingCarItem> getShoppingCarItemByBookId(Integer bookId) {
+		
+		ShoppingCarItemExample example = new ShoppingCarItemExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andBookIdEqualTo(bookId);
+		return shoppingCarItemMapper.selectByExample(example);
+		
+	}
+	
+	public void mergeCarItemsWtithVipid(Integer VipId, List<ShoppingCarItem> items)
+	{
+		List<ShoppingCarItem> itemsInVip = shoppingCarItemMapper.selectByVipId(VipId);
+		
+		
+	}
+	
 	@Transactional
 	public void purchaseAllItems(Integer vipId) {
 		// TODO Auto-generated method stub

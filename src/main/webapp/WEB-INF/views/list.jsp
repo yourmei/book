@@ -146,7 +146,20 @@
 				addCarBtn.click(function(){
 					if(('${sessionScope.isLogin}' == '') || ('${sessionScope.isLogin}' == 'false'))
 					{
-						window.location.href = "loginPage";
+						//window.location.href = "loginPage";
+						<%
+							String sessionID = session.getId();
+						%>
+						console.log("加入购物车: bookid: " + item.bookId + " sessionID: " +'<%=sessionID%>');
+						$.ajax({
+							url:"AddShoppingCar",
+							type:"GET",
+							data:"bookId=" + item.bookId,
+							success:function(){
+								
+								console.log("add book in session success");
+							}
+						})	
 					}
 					else
 					{

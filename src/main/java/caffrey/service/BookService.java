@@ -19,6 +19,12 @@ public class BookService {
 		return bookMapper.selectByExample(null);
 	}
 	
+	public Book getBookById(Integer id)
+	{
+		Book book = bookMapper.selectByPrimaryKey(id);
+		return book;
+	}
+	
 	public void updateBookStock(Integer bookId, Integer cnt, boolean isAdd)
 	{
 		int stock = bookMapper.selectByPrimaryKey(bookId).getStock();
