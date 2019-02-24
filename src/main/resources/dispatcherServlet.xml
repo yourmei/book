@@ -26,5 +26,9 @@
 				<mvc:mapping path="/**/ShoppingCar"/>
 				<bean class="caffrey.interceptor.LoginInterceptor"></bean>
 			</mvc:interceptor>
+			<mvc:interceptor>
+				<mvc:mapping path="/**/AddShoppingCar"/>
+				<bean class="caffrey.interceptor.ShoppingCarAddInterceptor"></bean>
+			</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

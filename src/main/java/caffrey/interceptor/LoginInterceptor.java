@@ -44,16 +44,21 @@ public class LoginInterceptor implements HandlerInterceptor{
 		System.out.println(session.getAttribute("isLogin"));
 		System.out.println(session.getAttribute("id"));
 		System.out.println(session.getAttribute("name"));
-		if((boolean)session.getAttribute("isLogin") == true)
+		if((session.getAttribute("isLogin") == null) || (boolean)session.getAttribute("isLogin") != true)
 		{
-			return HandlerInterceptor.super.preHandle(request, response, handler);
+			System.out.println("not login");
+			System.out.println(request.getRequestURI());
+			request.setAttribute("pageAfterLogin", request.getRequestURI());
+			request.getRequestDispatcher("WEB-INF/views/loginPage.jsp").forward(request,response); 
+			//System.out.println(response);
+			//response.sendRedirect("login");
+			
+			return false;
+			
 		}
 		else 
 		{
-			System.out.println("not login");
-			request.getRequestDispatcher("WEB-INF/views/loginPage.jsp").forward(request,response); 
-			
-			return false;
+			return HandlerInterceptor.super.preHandle(request, response, handler);
 		}
 	}
 }

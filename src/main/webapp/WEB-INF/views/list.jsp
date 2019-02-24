@@ -95,7 +95,7 @@
 		})
 		
 		function checkShoppingCar(){
-			window.location.href = "ShoppingCar?name=" + '${requestScope.name}' + "&id=" + '${requestScope.id}';
+			window.location.href = "ShoppingCar";
 		}
 		
 		$("#loginBtn").click(function(){
@@ -110,6 +110,7 @@
 				type:"GET",
 				success:function(result){
 					console.log(result);
+					window.location.href = "bookPage";
 				}
 			})  
 		})
@@ -143,15 +144,23 @@
 				var addCarBtn = $("<button></button>").addClass("btn btn-primary btn-sm").append("加入购物车");
 				var loginId = '${requestScope.id}';
 				addCarBtn.click(function(){
-					console.log("加入购物车: bookid: " + item.bookId + " vipid: " + loginId);
-					$.ajax({
-						url:"AddShoppingCar",
-						type:"GET",
-						data:"vipId=" + loginId + "&bookId=" + item.bookId,
-						success:function(){
-							console.log("add book success");
-						}
-					})
+					if(('${sessionScope.isLogin}' == '') || ('${sessionScope.isLogin}' == 'false'))
+					{
+						window.location.href = "loginPage";
+					}
+					else
+					{
+						console.log("加入购物车: bookid: " + item.bookId + " vipid: " + loginId);
+						$.ajax({
+							url:"AddShoppingCar",
+							type:"GET",
+							data:"vipId=" + ${sessionScope.id} + "&bookId=" + item.bookId,
+							success:function(){
+								
+								console.log("add book success");
+							}
+						})						
+					}
 				})
 				var buttonTd = $("<td></td>").append(addCarBtn);
 				$("<tr></tr>").append(bookIdTd)

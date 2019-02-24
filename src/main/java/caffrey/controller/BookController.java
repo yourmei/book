@@ -50,11 +50,8 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="bookPage", method=RequestMethod.GET)
-	public String bookPage(@RequestParam String name, int id,  ModelMap model) {
+	public String bookPage() {
 		
-		System.out.println("bookPage: " + name + " id: " + id);
-		model.addAttribute("name", name);
-		model.addAttribute("id", id);
 		return "list";
 	}
 	

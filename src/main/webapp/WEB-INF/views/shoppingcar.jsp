@@ -19,7 +19,9 @@
 		<div class="row">
 		  <div class="col-md-12">welcome back to myBookstore: ${name}</div>
 		</div>
-		
+		<div class="row">
+			<button class="btn btn-success" id="FirstPage">首页</button>
+		</div>
 		<div class="row">
 		  <table id="shoppingItems_table" class="table table-hover">
 				<thead>
@@ -123,6 +125,10 @@
 			.append(totalPriceNumber);
 		}
 		
+		$("#FirstPage").click(function(){
+			window.location.href = "bookPage";
+		})
+		
 		$("#purchaseBtn").click(function(){
 			var param = "vipId=" + ${id};
 			$.ajax({
@@ -178,6 +184,11 @@
 					console.log("add book success");
 				}
 			}) 
+			
+			if(cnt == 0)
+			{
+				window.location.href = "ShoppingCar";
+			}
 		}
 		
 	</script>

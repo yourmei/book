@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +119,25 @@
 					if(returnData.opCode == 100)
 					{
 						var pageNumber = 1;
-						window.location.href = "bookPage?name=" + returnData.list.name + "&id=" + returnData.list.id;
+						console.log("login success");
+						<% 
+							String conrrentUrl = request.getRequestURI();
+							request.setAttribute("conrrentUrl", conrrentUrl);
+						%>
+						console.log('${requestScope.conrrentUrl}');
+						console.log('${requestScope.pageAfterLogin}');
+						if('${requestScope.pageAfterLogin}' == '')
+						{
+							//console.log("wanttopage is kong");
+							window.location.href = "bookPage";
+						}
+						else
+						{
+							window.location.href = '${requestScope.pageAfterLogin}';
+						}
+
+						//window.location.href = '${requestScope.pageAfterLogin}';
+						//window.location.href = "bookPage?name=" + returnData.list.name + "&id=" + returnData.list.id;
 					}
 					else
 					{
