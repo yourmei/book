@@ -10,6 +10,7 @@
     <result column="book_name" jdbcType="VARCHAR" property="bookName" />
     <result column="book_author" jdbcType="VARCHAR" property="bookAuthor" />
     <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="purch_time" jdbcType="BIGINT" property="purchTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -205,6 +206,12 @@
   	where 
   	item_id = #{item_id,jdbcType=INTEGER}
   </update>
+  <update id="updateItemPurchTimeByItem_id">
+  	update tbl_shoppingcar
+  	set purch_time = #{time,jdbcType=BIGINT}
+  	where 
+  	item_id = #{item_id,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="caffrey.bean.ShoppingCarItem">
     update tbl_shoppingcar
     <set>
@@ -231,4 +238,13 @@
       status = #{status,jdbcType=BIT}
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectPurchaseItemsByVipId" resultMap="BaseResultMap">
+  	select * from tbl_shoppingcar
+  	JOIN tbl_book on tbl_shoppingcar.book_id = tbl_book.book_id
+  	where
+  	status = 1 and vip_id = #{vipId,jdbcType=INTEGER}
+  	order by purch_time
+  </select>
+  
 </mapper>

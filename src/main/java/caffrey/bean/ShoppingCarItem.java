@@ -17,7 +17,17 @@ public class ShoppingCarItem {
     
     private Integer price;
     
-    public Integer getPrice() {
+    private Long purchTime;
+    
+    public Long getPurchTime() {
+		return purchTime;
+	}
+
+	public void setPurchTime(Long purchTime) {
+		this.purchTime = purchTime;
+	}
+
+	public Integer getPrice() {
 		return price;
 	}
 
@@ -85,6 +95,6 @@ public class ShoppingCarItem {
 	public String toString() {
 		return "ShoppingCarItem [itemId=" + itemId + ", vipId=" + vipId + ", bookId=" + bookId + ", number=" + number
 				+ ", status=" + status + ", bookName=" + bookName + ", bookAuthor=" + bookAuthor + ", price=" + price
-				+ "]";
+				+ ", purchTime=" + purchTime + "]";
 	}
 }

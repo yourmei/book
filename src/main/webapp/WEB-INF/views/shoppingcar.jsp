@@ -30,6 +30,9 @@
 			<button class="btn btn-success" id="FirstPage">首页</button>
 		</div>
 		<div class="row">
+			<button class="btn btn-success" id="checkHistory">查看历史订单</button>
+		</div>
+		<div class="row">
 		  <table id="shoppingItems_table" class="table table-hover">
 				<thead>
 					<tr>
@@ -150,6 +153,10 @@
 			.append(totalPriceNullSpace)
 			.append(totalPriceNumber);
 		}
+		
+		$("#checkHistory").click(function(){
+			window.location.href = "checkHistory";
+		})
 		
 		$("#allShoppingItem").click(function(){
 			//alert($(this).prop("checked"));

@@ -137,6 +137,49 @@ public class ShoppingCarController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="checkHistoryItems", method=RequestMethod.GET)
+	public Msg getHistoryItemsByVipId(HttpServletRequest request)
+	{
+		Msg msg = Msg.Success();
+		
+		HttpSession session = request.getSession();
+		Integer id = (Integer) session.getAttribute("id");
+		System.out.println(id);
+		List<ShoppingCarItem> items = shoppingcarservice.checkHistoryById(id);
+		
+		msg.addObjToList("items", items);
+		
+		return msg;
+	}
+	
+	@RequestMapping(value="checkHistory", method=RequestMethod.GET)
+	public String getHistoryByVipId(HttpServletRequest request, Map<String, Object> map)
+	{
+		HttpSession session = request.getSession();
+		if((session.getAttribute("isLogin") == null) || (boolean)session.getAttribute("isLogin") != true)
+		{
+			return "history";
+		}
+		else
+		{
+			Integer id = (Integer) session.getAttribute("id");
+			System.out.println(id);
+			List<ShoppingCarItem> items = shoppingcarservice.checkHistoryById(id);
+			
+			System.out.println("check history result");
+			for (ShoppingCarItem shoppingCarItem : items) {
+				System.out.println(shoppingCarItem);
+			}
+			
+			map.put("historyItems", items);
+			map.put("abc", "abchistory");
+			
+			return "history";	
+		}
+		
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="getShoppingCarItemByVipId", method=RequestMethod.GET)
 	public Msg getShoppingCarItemByVipId(HttpServletRequest request, int id)
 	{

@@ -90,7 +90,7 @@ public class ShoppingCarService {
 	}
 	
 	@Transactional
-	public void purchAnItem(Integer vipId, Integer itemId) {
+	public void purchAnItem(Integer vipId, Integer itemId, Long purchase) {
 		// TODO Auto-generated method stub
 		ShoppingCarItem shoppingCarItem = shoppingCarItemMapper.selectByPrimaryKey(itemId);
 		System.out.println(shoppingCarItem);
@@ -102,23 +102,19 @@ public class ShoppingCarService {
 			cnt = shoppingCarItem.getNumber();
 			totalPrice = cnt * shoppingCarItem.getPrice();
 			
-			System.out.println("step 1");
 			vipService.updateVipMoney(vipId, totalPrice, true);
-			System.out.println("step 2");
 			bookService.updateBookStock(shoppingCarItem.getBookId(), cnt, false);
-			System.out.println("step 3");
 			shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
+			shoppingCarItemMapper.updateItemPurchTimeByItem_id(purchase, itemId);
 		}
 	}
 	
 	@Transactional
-	public void purchItemsBatch(Integer vipId, String[] itemId_str)
+	public void purchItemsBatch(Integer vipId, String[] itemId_str, Long purchase)
 	{
 		for (String itemstr : itemId_str) {
 			Integer itemId = Integer.parseInt(itemstr);
 			ShoppingCarItem shoppingCarItem = shoppingCarItemMapper.selectByPrimaryKey(itemId);
-			
-			System.out.println(shoppingCarItem);
 			
 			if(shoppingCarItem.getStatus() == false)
 			{
@@ -131,6 +127,7 @@ public class ShoppingCarService {
 				vipService.updateVipMoney(vipId, totalPrice, true);
 				bookService.updateBookStock(shoppingCarItem.getBookId(), cnt, false);
 				shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
+				shoppingCarItemMapper.updateItemPurchTimeByItem_id(purchase, shoppingCarItem.getItemId());
 			}
 		}
 	}
@@ -156,6 +153,12 @@ public class ShoppingCarService {
 				shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
 			}
 		}
+	}
+
+	public List<ShoppingCarItem> checkHistoryById(int id) {
+		// TODO Auto-generated method stub
+		
+		return shoppingCarItemMapper.selectPurchaseItemsByVipId(id);
 	}
 	
 	

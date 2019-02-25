@@ -1,6 +1,7 @@
 package caffrey.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,13 +69,14 @@ public class OperationController {
 			}
 			
 			System.out.println("idInSession " + idInSession);
-			
+			Date time = new Date();
+			Long purchTime = time.getTime();
 			if(item_str.length == 1)
 			{
 				System.out.println("cnt: 1 " + item_str.length);
 				try {
 					System.out.println("item: " + Integer.parseInt(item_str[0]) );
-					shoppingcarservice.purchAnItem(vipId, Integer.parseInt(item_str[0]));
+					shoppingcarservice.purchAnItem(vipId, Integer.parseInt(item_str[0]), purchTime);
 				} catch (Exception e) {
 					// TODO: handle exception
 					return Msg.Fail();
@@ -84,7 +86,7 @@ public class OperationController {
 			{
 				System.out.println("cnt: " + item_str.length);
 				try {
-					shoppingcarservice.purchItemsBatch(vipId, item_str);
+					shoppingcarservice.purchItemsBatch(vipId, item_str, purchTime);
 				} catch (Exception e) {
 					// TODO: handle exception
 					return Msg.Fail();
