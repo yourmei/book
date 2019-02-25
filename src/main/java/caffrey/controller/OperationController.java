@@ -39,9 +39,10 @@ public class OperationController {
 	
 	@ResponseBody
 	@RequestMapping(value="purchase", method=RequestMethod.GET)
-	public Msg purchase(HttpServletRequest request, HttpServletResponse response, @RequestParam("vipId") Integer vipId) throws ServletException, IOException 
+	public Msg purchase(HttpServletRequest request, HttpServletResponse response, @RequestParam("vipId") Integer vipId, String items) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
+		System.out.println("vipId: " + vipId + " items: " + items);
 		if((session.getAttribute("isLogin") == null) || (boolean)session.getAttribute("isLogin") != true)
 		{
 			//没有登录
@@ -60,16 +61,36 @@ public class OperationController {
 		{
 			//已经登录
 			Integer idInSession = (Integer) request.getSession().getAttribute("id");
+			
+			String[] item_str = items.split("-");
+			for (String string : item_str) {
+				System.out.println(string);
+			}
+			
 			System.out.println("idInSession " + idInSession);
 			
-			try {
-				shoppingcarservice.purchaseAllItems(vipId);
-			} catch (Exception e) {
-				// TODO: handle exception
-				return Msg.Fail();
+			if(item_str.length == 1)
+			{
+				System.out.println("cnt: 1 " + item_str.length);
+				try {
+					System.out.println("item: " + Integer.parseInt(item_str[0]) );
+					shoppingcarservice.purchAnItem(vipId, Integer.parseInt(item_str[0]));
+				} catch (Exception e) {
+					// TODO: handle exception
+					return Msg.Fail();
+				}
+			}
+			else
+			{
+				System.out.println("cnt: " + item_str.length);
+				try {
+					shoppingcarservice.purchItemsBatch(vipId, item_str);
+				} catch (Exception e) {
+					// TODO: handle exception
+					return Msg.Fail();
+				}
 			}
 		}
-		
 		
 		return Msg.Success();
 	}

@@ -90,6 +90,53 @@ public class ShoppingCarService {
 	}
 	
 	@Transactional
+	public void purchAnItem(Integer vipId, Integer itemId) {
+		// TODO Auto-generated method stub
+		ShoppingCarItem shoppingCarItem = shoppingCarItemMapper.selectByPrimaryKey(itemId);
+		System.out.println(shoppingCarItem);
+		if(shoppingCarItem.getStatus() == false)
+		{
+			int totalPrice;
+			int cnt;
+			
+			cnt = shoppingCarItem.getNumber();
+			totalPrice = cnt * shoppingCarItem.getPrice();
+			
+			System.out.println("step 1");
+			vipService.updateVipMoney(vipId, totalPrice, true);
+			System.out.println("step 2");
+			bookService.updateBookStock(shoppingCarItem.getBookId(), cnt, false);
+			System.out.println("step 3");
+			shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
+		}
+	}
+	
+	@Transactional
+	public void purchItemsBatch(Integer vipId, String[] itemId_str)
+	{
+		for (String itemstr : itemId_str) {
+			Integer itemId = Integer.parseInt(itemstr);
+			ShoppingCarItem shoppingCarItem = shoppingCarItemMapper.selectByPrimaryKey(itemId);
+			
+			System.out.println(shoppingCarItem);
+			
+			if(shoppingCarItem.getStatus() == false)
+			{
+				int totalPrice;
+				int cnt;
+				
+				cnt = shoppingCarItem.getNumber();
+				totalPrice = cnt * shoppingCarItem.getPrice();
+				
+				vipService.updateVipMoney(vipId, totalPrice, true);
+				bookService.updateBookStock(shoppingCarItem.getBookId(), cnt, false);
+				shoppingCarItemMapper.updateItemStatusByItem_id(shoppingCarItem.getItemId());
+			}
+		}
+	}
+	
+	
+	@Transactional
 	public void purchaseAllItems(Integer vipId) {
 		// TODO Auto-generated method stub
 

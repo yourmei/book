@@ -33,6 +33,7 @@
 		  <table id="shoppingItems_table" class="table table-hover">
 				<thead>
 					<tr>
+						<th><input type="checkbox" id="allShoppingItem"></th>
 						<th>编号</th>
 						<th>书名</th>
 						<th>作者</th>
@@ -99,6 +100,10 @@
 			$.each(items, function(index, item){
 				if((item.number > 0) && (item.status == false))
 				{
+					console.log("购物车：itemId " + item.itemId + " status: " + item.status);
+					var bookId = item.bookId;console.log(bookId);
+					
+					var checkBoxId = $("<td><input type='checkbox' class='shoppingItem'></td>");
 					var indexId = $("<td></td>").append(index+1);
 					var bookNameId = $("<td></td>").append(item.bookName);
 					var bookAuthorId = $("<td></td>").append(item.bookAuthor);
@@ -112,7 +117,8 @@
 					
 					var buttonTd = $("<td></td>").append(addBookBtn).append("  ").append(descBookBtn);
 					
-					var tr = $("<tr></tr>").append(indexId)
+					var tr = $("<tr></tr>").append(checkBoxId)
+					.append(indexId)
 					.append(bookNameId)
 					.append(bookAuthorId)
 					.append(priceId)
@@ -145,6 +151,23 @@
 			.append(totalPriceNumber);
 		}
 		
+		$("#allShoppingItem").click(function(){
+			//alert($(this).prop("checked"));
+			$(".shoppingItem").prop("checked" ,$(this).prop("checked"));
+		})
+		
+		$(document).on("click", ".shoppingItem", function(){
+			//alert($(this).prop("checked"));
+			if($(".shoppingItem:checked").length == $(".shoppingItem").length)
+			{
+				$("#allShoppingItem").prop("checked", $(this).prop("checked"));
+			}
+			else
+			{
+				$("#allShoppingItem").prop("checked", false);
+			}
+		});
+		
 		$("#FirstPage").click(function(){
 			window.location.href = "bookPage";
 		})
@@ -152,7 +175,7 @@
 		$("#purchaseBtn").click(function(){
 			var vipId = '${id}';
 			console.log(vipId);
-			var param
+			var param;
 			if(vipId == '')
 			{
 				param = "vipId=0";
@@ -162,6 +185,17 @@
 				param = "vipId=" + '${id}';
 			}
 			
+			var paramdata = '';
+			$.each($(".shoppingItem:checked"), function(){
+				
+				paramdata += $(this).parents("tr").attr("itemid") + "-";
+				
+			});
+			paramdata = paramdata.substring(0, paramdata.length-1);
+			
+			//console.log(paramdata);
+			param += "&items=" + paramdata;
+			console.log(param);
 			$.ajax({
 				url:"purchase",
 				type:"GET",
@@ -170,6 +204,7 @@
 					if(result.opCode == 100)
 					{
 						alert("支付成功!!");	
+						window.location.href = "ShoppingCar";
 					}
 					else if(result.opCode == 300)
 					{
@@ -185,34 +220,37 @@
 					}
 					
 				}
-			})
+			}) 
+			
 		})
 		
 		function changeItemNumber(isAdd, id, itemId)
 		{
 			if(isAdd == true)
 			{
-				var cnt = parseInt($(id).find("td").eq(4).text()) + 1;
+				var cnt = parseInt($(id).find("td").eq(5).text()) + 1;
 			}
 			else
 			{
-				var cnt = parseInt($(id).find("td").eq(4).text()) - 1;
+				var cnt = parseInt($(id).find("td").eq(5).text()) - 1;
 			}
-			$(id).find("td").eq(4).text(cnt);
-			$(id).find("td").eq(5).text(cnt * ($(id).find("td").eq(3).text()));
+			$(id).find("td").eq(5).text(cnt);
+			$(id).find("td").eq(6).text(cnt * ($(id).find("td").eq(4).text()));
 			
+			var totalCnt = 0;
 			if(isAdd == true)
 			{
-				var totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) + parseInt($(id).find("td").eq(3).text());	
+				totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) + parseInt($(id).find("td").eq(4).text());	
 			}
 			else
 			{
-				var totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) - parseInt($(id).find("td").eq(3).text());
+				totalCnt = parseInt($("#totalPriceForCar").find("td").eq(2).text()) - parseInt($(id).find("td").eq(4).text());
 			}
 			
 			$("#totalPriceForCar").find("td").eq(2).text(totalCnt);
 			
-			var paramdata = "ItemId=" + itemId;
+			
+			paramdata = "ItemId=" + itemId;
 			
 			console.log($(id).attr("itemId"));
 			$.ajax({
