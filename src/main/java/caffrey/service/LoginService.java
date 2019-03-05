@@ -17,19 +17,22 @@ public class LoginService {
 	{
 		Date nowDate = new Date();
 		Long time = nowDate.getTime() - 1000*60*1;//20 min
+		//查询规定时间内最后一次登录成功记录的时间
 		Long timeSuccess = loginItemMapper.seleteLastLoginSuccessTimeAfterTime(1, time);
 		//System.out.println(timeSuccess);
 		
 		Integer cntInteger;
+		//存在最后一次成功记录
 		if(timeSuccess != null)
 		{
 			//has success ever
-			cntInteger = loginItemMapper.selectCntForLoginFailAfterTime(1, timeSuccess);
+			cntInteger = loginItemMapper.selectCntForLoginFailAfterTime(vipId, timeSuccess);
 			//System.out.println("has suceess!");
 		}
+		//不存在最后一次成功记录
 		else {
 			//never success
-			cntInteger = loginItemMapper.selectCntForLoginFailAfterTime(1, time);
+			cntInteger = loginItemMapper.selectCntForLoginFailAfterTime(vipId, time);
 			//System.out.println("never success!");
 		}
 		

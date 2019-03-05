@@ -14,9 +14,7 @@
 <meta charset="utf-8">
 <title>Insert title here</title>
 <%
-	String abc = (String) pageContext.getAttribute("abc");
 	pageContext.setAttribute("historyItems", pageContext.getAttribute("historyItems"));
-	//List<ShoppingCarItem> historyItems = (List<ShoppingCarItem>) pageContext.getAttribute("historyItems");
 %>
 </head>
 <body>

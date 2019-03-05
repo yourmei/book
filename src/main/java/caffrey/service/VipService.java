@@ -35,9 +35,11 @@ public class VipService {
 		
 		List<Vip> vips = vipMapper.selectByExample(vipExample);
 		
+		//账号存在
 		if(vips.isEmpty() == false)
 		{
 			id = vips.get(0).getVipId();
+			
 			if(loginservice.checkIsVipIdLock(id) == true)
 			{
 				//被锁住了，不用记录信息

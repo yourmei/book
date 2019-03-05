@@ -20,23 +20,21 @@
 	
 	<div class="container">
 		<div class="row">
-			
-			<c:if test="${sessionScope.isLogin == 'false'}">
-				<!-- <div class="col-md-12">木有登录</div> -->
-				<div class="col-md-12">welcome back to myBookstore:游客</div>
-				<div class="col-md-12"><button id="loginBtn">登录</button></div>
-			</c:if>
 			<c:if test="${sessionScope.isLogin == 'true'}">
 				<!-- <div class="col-md-12">已经登录</div> -->
 				<div class="col-md-12">welcome back to myBookstore: ${name}</div>
-				<div class="col-md-12"><button id="logOutBtn">登出</button></div>
+				<div class="col-md-12"><button class="btn btn-success" id="logOutBtn">登出</button></div>
 			</c:if>
-		  
 		</div>
+
 		<div class="row">
-		  
-		  
+			<c:if test="${sessionScope.isLogin != 'true'}">
+				<!-- <div class="col-md-12">木有登录</div> -->
+				<div class="col-md-12">welcome to myBookstore:游客</div>
+				<div class="col-md-12"><button class="btn btn-success" id="loginBtn">登录</button></div>
+			</c:if>
 		</div>
+
 		<div class="row">
 		  <div class="col-md-12"> 
 		  	<button id="checkCar" class="btn btn-success">查看购物车</button>
@@ -72,15 +70,7 @@
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<script type="text/javascript">
 		$(function(){
 			var loginName = '${requestScope.name}';
@@ -131,6 +121,7 @@
 		
 		function build_page_table(result)
 		{
+			//每一次操作都先清空
 			$("#books_table tbody").empty();
 			var books = result.list.book.list;
 			$.each(books, function(index, item){

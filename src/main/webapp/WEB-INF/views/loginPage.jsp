@@ -126,7 +126,7 @@
 						%>
 						console.log('${requestScope.conrrentUrl}');
 						console.log("pageAfterLogin" + '${sessionScope.pageAfterLogin}');
-						alert("pageAfterLogin" + '${sessionScope.pageAfterLogin}');
+						//alert("pageAfterLogin" + '${sessionScope.pageAfterLogin}');
 						if('${sessionScope.pageAfterLogin}' == '')
 						{
 							//console.log("wanttopage is kong");
@@ -135,7 +135,7 @@
 						else
 						{
 							var fowardPage = '${sessionScope.pageAfterLogin}';
-							alert('${sessionScope.pageAfterLogin}');
+							//alert('${sessionScope.pageAfterLogin}');
 							<% 
 								session.removeAttribute("pageAfterLogin");
 							%>
